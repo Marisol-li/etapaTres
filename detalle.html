@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del Álbum</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/detalle.css">
+    <script src="./js/vue3.js"></script>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <nav class="menu-ruta">
+                <a href="index.html">Inicio</a> &gt;
+                <span>{{ album.collectionName }}</span>
+            </nav>
+        </header>
+
+        <main>
+            <div class="detalle-producto">
+                <img :src="album.artworkUrl100" :alt="album.collectionName" id="imagen-album">
+                <div class="info-producto">
+                    <h2>{{ album.collectionName }}</h2>
+                    <p><strong>Artista:</strong> <span>{{ album.artistName }}</span></p>
+                    <p><strong>Precio:</strong> <span>{{ album.collectionPrice ? `$${album.collectionPrice}` : 'No disponible' }}</span></p>
+                    <p id="descripcion-album">{{ album.primaryGenreName || 'Género desconocido' }}</p>
+                    <div class="cantidad">
+                        <button :disabled="cantidad <= 1" @click="disminuirCantidad">-</button>
+                        <input type="number" :value="cantidad" readonly>
+                        <button :disabled="cantidad >= 6" @click="aumentarCantidad">+</button>
+                    </div>
+                    <button @click="agregarAlCarrito">Agregar al carrito</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="./js/detalles.js"></script>
+</body>
+</html>

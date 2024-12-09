@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Géneros Musicales</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/estilos.css">
+    <script src="./js/vue3.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Encabezado -->
+        <header class="encabezado">
+            <div class="logo-titulo">
+                <img src="./img/vinilo.png" alt="Logo de MusicSpace" class="logo girar">
+                <h1 class="titulo">MusicSpace</h1>
+            </div>
+            <a href="carrito.html" class="carrito-link">🛒
+                {{ totalArticulos }}
+            </a>
+            <nav class="categorias">
+                <ul>
+                    <li 
+                        v-for="categoria in categorias" 
+                        :key="categoria.nombre" 
+                        @click="mostrarArtistas(categoria.artistas)"
+                    >
+                        {{ categoria.nombre }}
+                    </li>
+                </ul>
+            </nav>
+            <br>
+            <div class="buscador">
+                <input 
+                    type="text" 
+                    v-model="buscar" 
+                    placeholder="Buscar álbum"
+                >
+                <button @click="buscarArtista()">🔍</button>
+            </div>
+            <section class="barra-progreso">
+                <div class="progreso" :style="{ width: progreso + '%' }">
+                    {{ albumesSeleccionados.size }}/10
+                </div>
+            </section>
+            
+        </header>
+
+        
+        <main class="contenedor-principal">
+           
+            <aside class="contenedor-artistas">
+             
+                <ul class="lista-artistas">
+                    <li 
+                        v-for="artista in artistasFiltrados" 
+                        :key="artista" 
+                        @click="buscarAlbumes(artista)"
+                    >
+                        {{ artista }}
+                    </li>
+                </ul>
+            </aside>
+
+         
+            <section class="contenedor-albumes">
+                
+                <div class="tarjetas-contenedor">
+                    <div 
+                        v-for="album in albumes" 
+                        :key="album.collectionId" 
+                        class="tarjeta"
+                    >
+                        <img :src="album.artworkUrl100" :alt="album.collectionName">
+                        <h3>{{ album.collectionName }}</h3>
+                        <p>Artista: {{ album.artistName }}</p>
+                        <button @click="gestionarAlbum(album.collectionId)">
+                            {{ albumesSeleccionados.has(album.collectionId) ? 'Quitar' : 'Agregar' }}
+                        </button>
+                        <button @click="verDetalle(album)">Ver Detalles</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./js/funciones.js"></script>
+</body>
+</html>
+

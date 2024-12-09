@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+    <link rel="stylesheet" href="./css/carrito.css">
+    <script src="./js/vue3.js"></script>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <nav class="menu-ruta">
+                <a href="index.html">Inicio</a> &gt; <span>Carrito</span>
+            </nav>
+            <h1>Carrito de Compras</h1>
+        </header>
+
+        <main>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Imagen</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Subtotal</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="producto in carrito" :key="producto.collectionId">
+                        <td><img :src="producto.artworkUrl100" :alt="producto.collectionName"></td>
+                        <td>{{ producto.collectionName }}</td>
+                        <td>
+                            <button @click="actualizarCantidad(producto, -1)" :disabled="producto.cantidad <= 1">-</button>
+                            {{ producto.cantidad }}
+                            <button @click="actualizarCantidad(producto, 1)" :disabled="producto.cantidad >= 10">+</button>
+                        </td>
+                        <td>{{ producto.collectionPrice ? `$${producto.collectionPrice}` : 'No disponible' }}</td>
+                        <td>{{ `$${(producto.collectionPrice * producto.cantidad).toFixed(2)}` }}</td>
+                        <td>
+                            <button class="btn-eliminar" @click="eliminarProducto(producto)">Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="totales">
+                <p>Subtotal: {{ `$${subtotal.toFixed(2)}` }}</p>
+                <p>IVA (16%): {{ `$${iva.toFixed(2)}` }}</p>
+                <p>Total: {{ `$${total.toFixed(2)}` }}</p>
+            </div>
+            <button class="btn-vaciar" @click="vaciarCarrito()">Vaciar Carrito</button>
+        </main>
+    </div>
+
+    <script src="./js/carrito.js"></script>
+</body>
+</html>
